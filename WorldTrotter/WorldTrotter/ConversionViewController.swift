@@ -48,8 +48,11 @@ class ConversionViewController: UIViewController, UITextFieldDelegate{
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        let existingTextHasDecimalSeparator = textField.text?.range( of: ".")
-        let replacementTextHasDecimalSeparator = string.range( of: ".")
+        let currentLocal = Locale.current
+        let decimalSeparator = currentLocal.decimalSeparator ?? "."
+        
+        let existingTextHasDecimalSeparator = textField.text?.range( of: decimalSeparator)
+        let replacementTextHasDecimalSeparator = string.range( of: decimalSeparator)
         if existingTextHasDecimalSeparator != nil,
         replacementTextHasDecimalSeparator != nil {
             return false
@@ -69,10 +72,11 @@ class ConversionViewController: UIViewController, UITextFieldDelegate{
         
         updateCelsiusLable()
     }
+    
     @IBAction func fahrenheightFieldEditingChanged(_ textField: UITextField){
         
-        if let text = textField.text, let value = Double(text){
-            fahrenheightValue = Measurement(value: value, unit: .fahrenheit)
+        if let text = textField.text, let number = numberFormatter.number(from: text){
+            fahrenheightValue = Measurement(value: number.doubleValue, unit: .fahrenheit)
         }else{
             fahrenheightValue = nil
         }
