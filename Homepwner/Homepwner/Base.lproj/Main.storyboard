@@ -93,7 +93,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="LtG-bM-dNf">
-                                <rect key="frame" x="24" y="72" width="327" height="587"/>
+                                <rect key="frame" x="24" y="72" width="327" height="543"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="JuV-jF-osL">
                                         <rect key="frame" x="0.0" y="0.0" width="327" height="30"/>
@@ -156,24 +156,43 @@
                                         </subviews>
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Date Created" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="faJ-O4-hi2">
-                                        <rect key="frame" x="0.0" y="114" width="327" height="473"/>
+                                        <rect key="frame" x="0.0" y="114" width="327" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="248" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="HMn-AN-mi5">
+                                        <rect key="frame" x="0.0" y="142.5" width="327" height="400.5"/>
+                                    </imageView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="CX6-cF-fKr" firstAttribute="leading" secondItem="wuI-Mm-8o3" secondAttribute="leading" id="gHZ-uu-IPB"/>
                                     <constraint firstItem="wuI-Mm-8o3" firstAttribute="leading" secondItem="xxd-D9-pQX" secondAttribute="leading" id="y0h-AM-6af"/>
                                 </constraints>
                             </stackView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jJJ-PJ-X0A">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="a6s-pt-qqk"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem systemItem="camera" id="e1H-MM-rR3">
+                                        <connections>
+                                            <action selector="takePicture:" destination="1bz-aa-Kus" id="bsL-xs-50f"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="LtG-bM-dNf" firstAttribute="top" secondItem="s5U-W0-fFa" secondAttribute="bottom" constant="8" id="9he-ec-icM"/>
-                            <constraint firstItem="WuK-O5-fBv" firstAttribute="top" secondItem="LtG-bM-dNf" secondAttribute="bottom" constant="8" id="Mx6-g7-2Js"/>
+                            <constraint firstItem="jJJ-PJ-X0A" firstAttribute="leading" secondItem="myc-ks-jZw" secondAttribute="leading" id="C4Q-rK-hhO"/>
+                            <constraint firstItem="WuK-O5-fBv" firstAttribute="top" secondItem="jJJ-PJ-X0A" secondAttribute="bottom" id="O22-gn-UfX"/>
+                            <constraint firstAttribute="trailing" secondItem="jJJ-PJ-X0A" secondAttribute="trailing" id="Zb8-1f-JIp"/>
                             <constraint firstItem="LtG-bM-dNf" firstAttribute="leading" secondItem="myc-ks-jZw" secondAttribute="leadingMargin" constant="8" id="aWH-80-SfT"/>
+                            <constraint firstItem="jJJ-PJ-X0A" firstAttribute="top" secondItem="LtG-bM-dNf" secondAttribute="bottom" constant="8" id="oVY-i9-L8G"/>
                             <constraint firstAttribute="trailingMargin" secondItem="LtG-bM-dNf" secondAttribute="trailing" constant="8" id="tct-Xy-6bh"/>
                         </constraints>
                         <connections>
@@ -182,6 +201,7 @@
                     </view>
                     <connections>
                         <outlet property="dateLabel" destination="faJ-O4-hi2" id="tgt-ez-tub"/>
+                        <outlet property="imageView" destination="HMn-AN-mi5" id="bpD-2E-ek6"/>
                         <outlet property="nameField" destination="CX6-cF-fKr" id="QSx-Jf-s7u"/>
                         <outlet property="serialNumberField" destination="wuI-Mm-8o3" id="ZGf-ZW-E9d"/>
                         <outlet property="valueField" destination="xxd-D9-pQX" id="Mud-Wk-owY"/>
@@ -194,7 +214,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1920.8" y="153.37331334332833"/>
+            <point key="canvasLocation" x="1920.8" y="152.47376311844079"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="gby-wX-Csb">
