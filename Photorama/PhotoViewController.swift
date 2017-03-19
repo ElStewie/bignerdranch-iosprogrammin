@@ -1,0 +1,44 @@
+//
+//  PhotoViewController.swift
+//  Photorama
+//
+//  Created by Hisham Abraham on 3/16/17.
+//  Copyright © 2017 Hisham Abraham. All rights reserved.
+//
+
+import UIKit
+class PhotoViewController: UIViewController {
+    @IBOutlet var imageView: UIImageView!
+    var store: PhotoStore!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        store.fetchInterestinPhotos {
+            (photoResult) -> Void in
+            switch photoResult {
+            case let .success(photos):
+                print("Successfully found \(photos.count) photos.")
+                if let firstPhoto = photos.first {
+                    self.updateImageView(for: firstPhoto)
+                }
+            case let .failure(error):
+                print("Error fetching interesting photos: \(error)")
+            }
+        }
+    }
+    
+    func updateImageView(for photo: Photo) {
+        store.fetchImage(for: photo) {
+            (imageResult) -> Void in
+            
+            switch imageResult {
+            case let .success(image):
+                self.imageView.image = image
+            case let .failure(error):
+                print("Error downloading image \(error)")
+            }
+        }
+    }
+    
+}
