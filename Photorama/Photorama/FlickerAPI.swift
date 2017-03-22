@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 enum FlickrError: Error {
     case invalidJSONData
@@ -24,7 +25,7 @@ struct FlickerAPI {
         return formater
     }()
     
-    private static func photo(fromJSON json: [String : Any]) -> Photo?
+    private static func photo(fromJSON json: [String : Any], into context: NSManagedObjectContext) -> Photo?
     {
         guard
        let photoID = json["id"] as? String,
@@ -39,7 +40,30 @@ struct FlickerAPI {
                 return nil
         }
         
-        return Photo(title: title, remoteURL: url, photoID: photoID, dateTaken: dateTaken)
+        let fetchRequest: NSFetchRequest < Photo > = Photo.fetchRequest()
+        let predicate = NSPredicate( format: "\(#keyPath( Photo.photoID)) = \( photoID)")
+        fetchRequest.predicate = predicate
+        
+        var fetchedPhotos: [Photo]?
+        context.performAndWait {
+            fetchedPhotos = try? fetchRequest.execute()
+        }
+        if let existingPhoto = fetchedPhotos?.first {
+            return existingPhoto
+        }
+        
+
+        
+        var photo: Photo!
+        context.performAndWait {
+            photo = Photo(context: context)
+            photo.title = title
+            photo.photoID = photoID
+            photo.remoteURL = url as NSURL
+            photo.dateTaken = dateTaken as NSDate
+        }
+        
+        return photo
         
     }
 
@@ -76,7 +100,7 @@ struct FlickerAPI {
         return flickerURL(method: .interestingPhotos, parameters: ["extras": "url_h,date_taken"])
     }
     
-    static func photos(fromJSON data: Data) -> PhotoResult {
+    static func photos(fromJSON data: Data, into context: NSManagedObjectContext) -> PhotoResult {
         do {
             let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
             guard
@@ -89,7 +113,7 @@ struct FlickerAPI {
             }
             var finalPhotos = [Photo]()
             for photoJSON in photosArray {
-                if let photo = photo(fromJSON: photoJSON){
+                if let photo = photo(fromJSON: photoJSON, into: context){
                     finalPhotos.append(photo)
                 }
             }
